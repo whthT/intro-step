@@ -18,12 +18,11 @@ composer require whtht/intro-step
 Vendor publishing with this code.
 ```php
 php artisan vendor:publish --force --provider=Whtht\IntroStep\IntroStepServiceProvider
-```
-
+``
 ###### Step 3
 Settings your user table.
 
-<p><img src="https://github.com/whthT/intro-step/blob/1.0.1/docs/config-file.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/config-file.png"></p>
 
 ```php
 // web_middleware => /intro-step-admin page middlewares
@@ -59,26 +58,26 @@ php artisan config:cache
 
 ###### Step 8
 Append this `@intro_step` blade directive on your layout blade or any blade like this.
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/blade-directive.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/blade-directive.png"></p>
 And clear view cache with `php artisan view:clear`
 
 ###### Step 9
 Now you ready to go on your `http://yourwebsite.com/intro-step-admin` page
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/step-list.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/step-list.png"></p>
 Now lets create a step
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/create-new-step.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/create-new-step.png"></p>
 
 Example Edit Page about how this fields must be fill
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/edit-step.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/edit-step.png"></p>
 
 ###### Step 10
 Change view render function on controller `view()` to `IntroStep::viewWithIntro()` like this
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/view-with-intro.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/view-with-intro.png"></p>
 
 ###### Step 11
 Go to this step url `(/home this example)` and see this steps
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/home-blade-code.png"></p>
-<p><img src="https://github.com/whthT/intro-step/blob/master/docs/home-blade.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/home-blade-code.png"></p>
+<p><img src="https://github.com/whthT/intro-step/blob/master/src/docs/home-blade.png"></p>
 
 ## License
 
