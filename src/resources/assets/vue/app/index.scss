@@ -1,0 +1,74 @@
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.list-style-none {
+    list-style: none;
+}
+
+.virtual-a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+    cursor: pointer;
+}
+
+.flip-list-move {
+    transition: transform .4s;
+}
+
+.remove-step-item {
+    font-size: 22px;
+    float:right;
+}
+
+.invalid {
+    border: 1px solid red;
+}
+
+.inline-ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: block;
+        float: left;
+        margin-left: 12px;
+    }
+}
+
+.custom-input {
+  display: block;
+  width: 100%;
+  border: .2px solid #ddd;
+  padding: 5px;
+  outline: none;
+  &:focus {
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+  }
+}
+
+.inline-form-items {
+  float:left;
+  &:not(:first-child) {
+    margin-left: 12px;
+  }
+}
+
+.step-key {
+    position:absolute;
+    top:0;
+    left:0;
+}

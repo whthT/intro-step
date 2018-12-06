@@ -1,0 +1,28 @@
+{
+    "name": "whtht/intro-step",
+    "description": "Laravel intro step plugin with introjs",
+    "keywords": ["laravel","intro"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Musa Kurt",
+            "email": "hackedtim61@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Whtht\\IntroStep\\": "src/"
+        }
+    },
+    "extra":{
+        "laravel":{
+            "providers":[
+                "Whtht\\IntroStep\\IntroStepServiceProvider"
+            ],
+            "aliases":{
+                "IntroStep": "Whtht\\IntroStep\\IntroStep"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
