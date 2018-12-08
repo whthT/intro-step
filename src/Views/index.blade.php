@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{csrf_token()}}">
     <meta name="access-token" content="{{session()->get('accessToken')}}">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Intro Step Admin - Laravel</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
@@ -35,16 +35,11 @@
     <div class="row">
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">@{{title}}</h1>
+                <h1 class="h2">@{{$t(title)}}</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <router-link to="/steps/create" tag="button" class="btn btn-sm btn-success">New Step</router-link>
-                        <button class="btn btn-sm btn-outline-secondary">Export</button>
+                    <router-link to="/steps/create" tag="button" class="btn btn-sm btn-success">@{{$t('stepCreateLabel')}}</router-link>
                     </div>
-                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar"></span>
-                        This week
-                    </button>
                 </div>
             </div>
             <breadcrumb></breadcrumb>
@@ -69,37 +64,11 @@
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 
-
+<script>
+    window.defaultOptions = {!! json_encode($defaultOptions) !!};
+    window.i18n = {!! json_encode($i18n) !!};
+</script>
 <script src="{{asset('vendor/whtht/intro-step/vue/app/index.js')}}"></script>
 
-{{--<script>--}}
-    {{--var ctx = document.getElementById("myChart");--}}
-    {{--var myChart = new Chart(ctx, {--}}
-        {{--type: 'line',--}}
-        {{--data: {--}}
-            {{--labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],--}}
-            {{--datasets: [{--}}
-                {{--data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],--}}
-                {{--lineTension: 0,--}}
-                {{--backgroundColor: 'transparent',--}}
-                {{--borderColor: '#007bff',--}}
-                {{--borderWidth: 4,--}}
-                {{--pointBackgroundColor: '#007bff'--}}
-            {{--}]--}}
-        {{--},--}}
-        {{--options: {--}}
-            {{--scales: {--}}
-                {{--yAxes: [{--}}
-                    {{--ticks: {--}}
-                        {{--beginAtZero: false--}}
-                    {{--}--}}
-                {{--}]--}}
-            {{--},--}}
-            {{--legend: {--}}
-                {{--display: false,--}}
-            {{--}--}}
-        {{--}--}}
-    {{--});--}}
-{{--</script>--}}
 </body>
 </html>

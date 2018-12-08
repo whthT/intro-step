@@ -11,64 +11,154 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+class _IntroStep{
+    constructor(IntroStep) {
+        this.$model = new introJs();
 
-if (window.IntroStep.is_active && typeof introJs != "undefined") {
-    const Intro = introJs();
-    let options = {};
-    Object.keys(window.IntroStep.step.step_info.options).forEach(opt => options[opt] = window.IntroStep.step.step_info.options[opt]);
-    options.steps = IntroStep.user && IntroStep.user.last_step ? window.IntroStep.step.step_info.steps.slice(IntroStep.user.last_step) : window.IntroStep.step.step_info.steps;
+        this.modelOnEventHandlers();
 
-        window.IntroStep.step.step_info.steps.forEach((item, key) => {
+        this.IntroStep = IntroStep;
+
+        this.step = this.getStep();
+        this.user = this.getUserOrMock();
+        this.stepsList = this.getStepsList();
+        this.options = this.getOptions();
+
+        this.is_completed = false;
+        this.last_seen_step = this.user.last_step;
+
+        this.placementsVariablesToModel();
+        this.setCustomHtmlAttributes();
+
+        console.log(this);
+        if(this.isIntroWillShow()) {
+            this.run();
+        }
+    }
+
+    placementsVariablesToModel() {
+        this.$model.setOption("steps", this.stepsList);
+        this.$model.setOptions(this.options);
+    }
+
+    setCustomHtmlAttributes() {
+        this.stepsList.forEach((item, key) => {
             let elem = document.querySelectorAll(item.element);
             Object.keys(elem).map(v => elem[v]).forEach(el => el.setAttribute("data-intro", key + 1));
         });
-
-
-        Intro.setOptions(options);
-
-    if (IntroStep.is_auth_only && IntroStep.is_auth) {
-
-        
-
-        if (!IntroStep.user || IntroStep.user && !IntroStep.user.is_completed || !IntroStep.user && !IntroStep.is_auth_only) {
-            setTimeout(() => {
-                Intro.start()
-            }, 1000);
-        }
-
-        
-        let last_step = IntroStep.user && IntroStep.user.last_step ? IntroStep.user.last_step : 0;
-        let isCompleted = false;
-
-        Intro.onchange(elem => last_step = elem.getAttribute("data-intro"));
-        Intro.oncomplete(() => isCompleted = true);
-
-        Intro.onexit(() => {
-            axios.post("/intro-step-admin/api/user", {
-                step_id: IntroStep.step.id,
-                complete: isCompleted,
-                last_step
-            }).then().catch(console.log);
-        })
-    } else if (!IntroStep.is_auth) {
-        // if (window.localStorage) {
-        //     let storageIntro = JSON.parse(window.localStorage.getItem("intro_step_" + IntroStep.id)) || {};
-        //     let last_step = storageIntro.last_step ? storageIntro.last_step : 0;
-        //     Intro.onchange((elem) => {
-        //         last_step = elem.getAttribute("data-intro");
-        //     });
-
-        //     function save() {
-        //         storageIntro = {
-        //             id: IntroStep.step.id,
-        //             last_step,
-        //             is_completed: true
-        //         }
-        //         window.localStorage.setItem("intro_step_" + IntroStep.step.id, JSON.stringify(storageIntro));
-        //     }
-
-        //     Intro.oncomplete(() => save());
-        //     Intro.onexit(() => save());
-        // }
     }
+
+    getStep() {
+        return this.IntroStep.step;
+    }
+
+    getOptions() {
+        return this.IntroStep.step.step_info.options;
+    }
+
+    getStoreRoute() {
+        return this.IntroStep.route;
+    }
+
+    getStepsList() {
+        return this.IntroStep.step.step_info.steps;
+    }
+
+    getUserLastStep() {
+        return this.user.last_step;
+    }
+
+    getClientLastStep() {
+        return this.last_seen_step;
+    }
+
+    getUserOrMock() {
+        return this.IntroStep.user || {
+            id: null,
+            user_id: null,
+            intro_step_step_list_id: this.step.id,
+            is_completed: false,
+            last_step: 0,
+            last_action: null,
+            created_at: null,
+            updated_at: null,
+            completed_at: null,
+            is_mock: true
+        }
+    }
+
+    isAuthOnly() {
+        return this.step.auth_only ? true : false;
+    }
+
+    isUserExists() {
+        return !this.user.is_mock ? true : false;
+    }
+
+    isUserAuth() {
+        return this.IntroStep.is_auth ? true : false;
+    }
+
+    isStepActive() {
+        return this.IntroStep.is_active ? true : false;
+    }
+
+    isCompletedBefore() {
+        return this.user.is_completed ? true : false;
+    }
+
+    isCompleted() {
+        return this.is_completed;
+    }
+
+    isIntroWillShow() {
+        return this.isStepActive() && (
+            this.isUserAuth() && !this.isCompletedBefore() || !this.isUserAuth() && !this.isAuthOnly()
+        );
+    }
+
+    onChange(elem) {
+        this.last_seen_step = elem.getAttribute("data-intro")
+
+        console.log("change", this.last_seen_step);
+    }
+
+    onCompleted(_e) {
+        this.is_completed = true;
+    }
+
+    onExit(_e) {
+        if(this.isUserAuth()) {
+            this.sendRequest();
+        } else {
+            // localStorage actions ....
+        }
+    }
+
+    sendRequest() {
+        axios.post(this.getStoreRoute(), {step_id: this.step.id, completed: this.isCompleted(), last_step: this.getClientLastStep()});
+    }
+
+    modelOnEventHandlers() {
+        this.$model.oncomplete(evt => this.onCompleted(evt)); // On Completed
+        this.$model.onexit(evt => this.onExit(evt)); // On Exit
+        this.$model.onchange(elem => this.onChange(elem)); // On Change
+    }
+
+    run() {
+        setTimeout(() => {
+            this.$model.start();
+            if(this.getUserLastStep()) {
+                setTimeout(() => {
+                    this.$model.goToStep(this.getUserLastStep());
+                },100);
+            }
+        }, 1000);
+    }
+
 }
+
+if (window.IntroStep.is_active && typeof introJs != "undefined") {
+    new _IntroStep(window.IntroStep);
+}
+// window.IntroStep = null;

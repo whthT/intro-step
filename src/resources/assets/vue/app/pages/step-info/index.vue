@@ -1,5 +1,5 @@
 <template>
-    <span>Step info</span>
+    <span>{{$t('soon')}}</span>
 </template>
 <script>
 export default{

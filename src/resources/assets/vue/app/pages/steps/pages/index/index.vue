@@ -4,10 +4,10 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>View Path</th>
-                <th>Created At</th>
-                <th>Action</th>
+                <th>{{$t('name')}}</th>
+                <th>{{$t('view_path')}}</th>
+                <th>{{$t('created_at')}}</th>
+                <th>{{$t('action')}}</th>
             </tr>
             </thead>
             <tbody>
@@ -18,9 +18,9 @@
                 <td v-text="item.created_at"></td>
                 <td>
                     <ul class="inline-ul">
-                        <li><a href="#" @click="redirectEdit(item, $event)" class="text-success"><i class="fa fa-pencil"></i> Edit</a></li>
-                        <li><a href="#" @click="redirectShow(item, $event)" class="text-info"><i class="fa fa-info"></i> Info</a></li>
-                        <li><a href="#" @click="removeStep(item, $event)" class="text-danger"><i class="fa fa-times"></i> Remove</a></li>
+                        <li><a href="#" @click="redirectEdit(item, $event)" class="text-success"><i class="fa fa-pencil"></i> {{$t('edit')}}</a></li>
+                        <li><a href="#" @click="redirectShow(item, $event)" class="text-info"><i class="fa fa-info"></i> {{$t('info')}}</a></li>
+                        <li><a href="#" @click="removeStep(item, $event)" class="text-danger"><i class="fa fa-times"></i> {{$t('remove')}}</a></li>
                     </ul>
                 </td>
             </tr>

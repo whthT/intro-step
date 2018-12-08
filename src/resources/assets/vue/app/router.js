@@ -8,9 +8,6 @@ import CreateStep from "./pages/steps/pages/create/index";
 import EditStep from "./pages/steps/pages/edit/index";
 import ShowStep from "./pages/steps/pages/show/index";
 
-
-import OptionsIndex from "./pages/options/index/index";
-
 import StepInfoShow from "./pages/step-info/index";
 
 const auth = (to, from, next) => {
@@ -27,7 +24,7 @@ export default new VueRouter({
     routes: [{
             path: "/",
             component: RouterView,
-            label: "Dashboard",
+            label: "dashboardLabel",
             icon: "home",
             showOnSidebar: true,
             beforeEnter: auth,
@@ -38,18 +35,18 @@ export default new VueRouter({
 
                 meta: {
                     breadcrumbs: [{
-                        name: "Dashboard",
+                        name: "dashboardLabel",
                         path: "/"
                     }],
-                    title: "Dashboard"
+                    title: "dashboardLabel"
                 }
             }],
             meta: {
                 breadcrumbs: [{
-                    name: "Dashboard",
+                    name: "dashboardLabel",
                     path: "/"
                 }],
-                title: "Dashboard"
+                title: "dashboardLabel"
             }
         },
         {
@@ -59,15 +56,15 @@ export default new VueRouter({
             component: StepInfoShow, 
             meta: {
                 breadcrumbs: [
-                    {name: "Dashboard", path: "/"},
-                    {name: "Step Info"}
+                    {name: "dashboardLabel", path: "/"},
+                    {name: "stepInfoLabel"}
                 ],
-                title: "Step Info"
+                title: "stepInfoLabel"
             }
         },
         {
             path: "/steps",
-            label: "Steps",
+            label: "stepsLabel",
             component: RouterView,
             icon: "file",
             showOnSidebar: true,
@@ -78,7 +75,7 @@ export default new VueRouter({
                     name: "steps.index",
                     meta: {
                         breadcrumbs: [{
-                                name: "Dashboard",
+                                name: "dashboardLabel",
                                 path: "/"
                             },
                             {
@@ -86,7 +83,7 @@ export default new VueRouter({
                                 path: "/steps"
                             }
                         ],
-                        title: "Steps"
+                        title: "stepsLabel"
                     }
                 },
                 {
@@ -95,19 +92,19 @@ export default new VueRouter({
                     name: "steps.create",
                     meta: {
                         breadcrumbs: [{
-                                name: "Dashboard",
+                                name: "dashboardLabel",
                                 path: "/"
                             },
                             {
-                                name: "Steps",
+                                name: "stepsLabel",
                                 path: "/steps"
                             },
                             {
-                                name: "Create",
+                                name: "stepCreateLabel",
                                 path: "/steps/create"
                             }
                         ],
-                        title: "Create New Step"
+                        title: "stepCreateLabel"
                     }
                 },
                 {
@@ -116,17 +113,17 @@ export default new VueRouter({
                     name: "steps.edit",
                     meta: {
                         breadcrumbs: [{
-                                name: "Dashboard",
+                                name: "dashboardLabel",
                                 path: "/"
                             },
                             {
-                                name: "Steps",
+                                name: "stepsLabel",
                                 path: "/steps"
                             }, {
                                 name: "Edit"
                             }
                         ],
-                        title: "Edit Step"
+                        title: "editStepLabel"
                     }
                 },
                 {
@@ -135,35 +132,19 @@ export default new VueRouter({
                     name: "steps.show",
                     meta: {
                         breadcrumbs: [{
-                                name: "Dashboard",
+                                name: "dashboardLabel",
                                 path: "/"
                             },
                             {
-                                name: "Steps",
+                                name: "stepsLabel",
                                 path: "/steps"
                             }, {
-                                name: "Show"
+                                name: "stepsShowLabel"
                             }
                         ],
-                        title: "Step Info"
+                        title: "stepInfoLabel"
                     }
                 },
-            ]
-        },
-        {
-            path: "/options",
-            label: "Default Options",
-            component: RouterView,
-            showOnSidebar: true,
-            icon: "settings",
-            children: [
-                {path: "/", component: OptionsIndex, name: "options.index", meta: {
-                    breadcrumbs: [
-                        {name: "Dashboard", path: "/"},
-                        {name: "Default Options"}
-                    ],
-                    title: "Default Options"
-                }}
             ]
         }
     ]

@@ -5,7 +5,7 @@
                 <li class="nav-item" v-for="nav in list">
                     <router-link class="nav-link" class-active="active" :to="nav.path">
                         <span :data-feather="nav.icon"></span>
-                        {{nav.label}}
+                        {{$t(nav.label)}}
                     </router-link>
                 </li>
             </ul>

@@ -23,13 +23,12 @@ class IntroStepServiceProvider extends ServiceProvider {
             __DIR__.'/public' => public_path('vendor/whtht/intro-step'),
             __DIR__."/config/intro-step.php" => config_path("intro-step.php"),
             __DIR__."/database/migrations" => database_path("migrations"),
-            __DIR__."/database/seeds" => database_path("seeds"),
             __DIR__ . "/app" => app_path()
         ]);
 
-//        $this->publishes([
-//           __DIR__."/lang" => resource_path("lang/vendor/intro_step")
-//        ]);
+       $this->publishes([
+          __DIR__."/lang" => resource_path("lang/vendor/intro_step")
+       ]);
 
         Blade::directive('intro_step', function ($withScript = true) {
             if($withScript === "") {

@@ -29,7 +29,7 @@ class IntroStepUserListTable extends Migration
 
 
             $table->foreign(config("intro-step.user_column"))->references("id")->on(config('intro-step.user_table'))->onDelete("CASCADE")->onUpdate("CASCADE");
-            $table->foreign("intro_step_step_list_id")->references("id")->on("intro_step_step_list")->onDelete("NO ACTION")->onUpdate("CASCADE");
+            $table->foreign("intro_step_step_list_id")->references("id")->on("intro_step_step_list")->onDelete("CASCADE")->onUpdate("CASCADE");
         });
     }
 

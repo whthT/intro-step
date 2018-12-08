@@ -15,6 +15,7 @@
         "shelljs.exec": "^1.1.7",
         "take-a-shot": "^1.0.8",
         "uuid": "^3.3.2",
+        "vue-i18n": "^8.4.0",
         "vue-router": "^3.0.2",
         "vue-toasted": "^1.1.26",
         "vuedraggable": "2.17.0",

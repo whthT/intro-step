@@ -4,5 +4,7 @@ export default {
     stepUserList: [],
     options: {},
     showList: [],
-    editList: []
+    editList: [],
+    defaultOptions: window.defaultOptions
+
 }

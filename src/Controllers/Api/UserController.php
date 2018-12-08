@@ -21,9 +21,9 @@ class UserController extends Controller
             $userStep = IntroStepUserList::getUserStep($step);
             $db = [
                 "last_action" => now(),
-                "is_completed" => $request->complete,
+                "is_completed" => $request->completed ? true : false,
                 "last_step" => $request->last_step,
-                "completed_at" => $request->complete ? now() : null
+                "completed_at" => $request->completed ? now() : null
             ];
             if($userStep && !$userStep->is_completed) {
 

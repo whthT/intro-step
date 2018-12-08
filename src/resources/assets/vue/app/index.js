@@ -6,6 +6,7 @@ import _Api from "./api";
 import store from "./store";
 import router from "./router";
 import Toasted from 'vue-toasted';
+import VueI18n from "vue-i18n";
 
 import draggable from 'vuedraggable'
 
@@ -18,25 +19,21 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-// let accessToken = document.head.querySelector('meta[name="access-token"]');
-// if (token) {
-//     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-// } else {
-//     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-// }
-
-
-
 window.Api = new _Api(token.content);
 Vue.use(VueRouter);
 Vue.use(Toasted)
+Vue.use(VueI18n);
+
 Vue.component("breadcrumb", Breadcrumb);
 Vue.component("draggable", draggable);
 
+const i18n = new VueI18n(window.i18n || {});
+
 new Vue({
+    i18n,
     router,
     store,
-    data:() =>({
+    data: () => ({
         title: "Dashboard"
     }),
     components: {
@@ -47,7 +44,7 @@ new Vue({
     },
     methods: {
         updateTitle() {
-            if(this.$route && this.$route.meta && this.$route.meta.title) {
+            if (this.$route && this.$route.meta && this.$route.meta.title) {
                 this.title = this.$route.meta.title
             } else {
                 this.title = "Unknown :("
@@ -58,7 +55,8 @@ new Vue({
         "$route": {
             handler() {
                 this.updateTitle();
-            }, deep: true
+            },
+            deep: true
         }
     }
 

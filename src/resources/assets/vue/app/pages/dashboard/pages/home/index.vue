@@ -3,10 +3,10 @@
         <table class="table table-striped">
             <thead>
                 <th>#</th>
-                <th>Name</th>
-                <th>Participant</th>
-                <th>Complete</th>
-                <th>Info</th>
+                <th>{{$t('name')}}</th>
+                <th>{{$t('participant')}}</th>
+                <th>{{$t('complete')}}</th>
+                <th>{{$t('info')}}</th>
             </thead>
             <tbody>
                 <tr v-for="item in stepUserList" :key="item.id">
@@ -17,7 +17,7 @@
                     <td v-text="item.participant_count"></td>
                     <td v-text="item.complete_count"></td>
                     <td>
-                        <router-link :to="'/step-info/'+item.id">Info</router-link>
+                        <router-link :to="'/step-info/'+item.id">{{$t('info')}}</router-link>
                     </td>
                 </tr>
             </tbody>

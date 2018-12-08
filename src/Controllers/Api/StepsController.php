@@ -44,6 +44,7 @@ class StepsController extends Controller {
             ])->toJson()
         ]);
 
+
         if($step) {
             return response()->json(["status" => "success", "message" => trans("intro_step::messages.stepCreateSuccess")]);
         } else {

@@ -1,9 +1,7 @@
 <template>
   <div>
-    <h6>{{title}}</h6>
     <form @submit="createNewStep">
       <div class="form-group">
-        <!-- <label for="name">Name</label> -->
         <input
           type="text"
           :class="{'invalid': errorList.name.length}"
@@ -11,7 +9,7 @@
           class="custom-input"
           name="name"
           id="name"
-          placeholder="Step name"
+          :placeholder="$t('stepNamePlaceholder')"
         >
         <small
           class="form-text text-danger"
@@ -29,12 +27,22 @@
           class="custom-input"
           name="view_path"
           id="view_path"
-          placeholder="Witch view must shown? Eq: frontend.home.index"
+          :placeholder="$t('viewPathPlaceholder')"
         >
         <small
           class="form-text text-danger"
           v-if="errorList.view_path.length"
           v-text="errorList.view_path.slice().shift()"
+        ></small>
+      </div>
+
+      <div class="form-group form-check">
+        <input type="checkbox" id="authOnly" class="form-check-input" v-model="form.auth_only">
+        <label for="authOnly">{{$t('authOnlyLabel')}}</label>
+        <small
+          class="form-text text-danger"
+          v-if="errorList.auth_only.length"
+          v-text="errorList.auth_only.slice().shift()"
         ></small>
       </div>
 
@@ -45,7 +53,7 @@
           v-text="errorList.steps.slice().shift()"
         ></small>
         <label>
-          <b>Steps</b>
+          <b>{{$t('stepsLabel')}}</b>
         </label>
         <a href="#" @click="addNewStep" class="btn btn-success btn-rounded fa fa-plus-circle"></a>
         <span v-if="removedSteps.length">
@@ -53,7 +61,7 @@
             <i class="fa fa-undo"></i>
           </a>
         </span>
-        <a href="#" data-toggle="collapse" data-target="#step_list">collapse</a>
+        <a href="#" data-toggle="collapse" data-target="#step_list">{{$t('collapseText')}}</a>
         <ul class="list-style-none list-group collapse show" id="step_list">
           <draggable v-model="form.steps">
             <transition-group tag="li" name="flip-list">
@@ -75,42 +83,43 @@
                 <div class="row" style="margin-bottom: -15px;">
                   <div class="col-md-3">
                     <div class="form-group">
-                      <span>Element Selector:</span>
+                      <span>{{$t('elementSelectorText')}}:</span>
                       <input
                         type="text"
                         v-model="step.selector"
                         class="custom-input"
-                        placeholder="#first_item"
+                        :class="['_'+step.uuid]"
+                        :placeholder="$t('elementSelectorPlaceholder')"
                       >
                     </div>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <span>Intro Text:</span>
+                      <span>{{$t('introText')}}:</span>
                       <input
                         class="custom-input"
                         v-model="step.intro"
-                        placeholder="The intro text."
+                        :placeholder="$t('introTextPlaceholder')"
                       >
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div
                       class="form-group form-check inline-form-items"
-                      :key="step.uuid+'_'+pos.name"
+                      :key="step.uuid+'_'+pos"
                       v-for="pos in positions"
                     >
                       <input
                         type="checkbox"
                         class="form-check-input"
-                        :id="step.uuid+'_'+pos.name+'_checkbox'"
-                        :value="step.position[pos.name]"
-                        v-model="step.position[pos.name]"
+                        :id="step.uuid+'_'+pos+'_checkbox'"
+                        :value="step.position[pos]"
+                        v-model="step.position[pos]"
                       >
                       <label
                         class="form-check-label"
-                        :for="step.uuid+'_'+pos.name+'_checkbox'"
-                      >{{pos.label}}</label>
+                        :for="step.uuid+'_'+pos+'_checkbox'"
+                      >{{$t(pos)}}</label>
                     </div>
                   </div>
                 </div>
@@ -122,54 +131,51 @@
 
       <div
         class="form-group"
-        v-for="item in formItems"
+        v-for="(item, model) in defaultOptions"
         :class="{'form-check':item.type == 'boolean'}"
-        :key="item.model"
+        :key="model"
       >
         <input
           type="checkbox"
-          :id="item.model+'Element'"
+          :id="model+'Element'"
           class="form-check-input"
-          v-if="item.type == 'boolean'"
-          v-model="form.options[item.model]"
+          :class="{'invalid': errorList[model].length}"
+          v-if="fieldTypes.checkbox.indexOf(item.type) >= 0"
+          v-model="form.options[model]"
         >
-        <label :for="item.model+'Element'" v-text="item.label"></label>
+        
+        <label
+          :class="{'text-danger': errorList[model].length}"
+          :for="model+'Element'"
+          v-text="$t(model+'Label')"
+        ></label>
         <input
           class="custom-input"
-          :id="item.model+'Element'"
-          v-model="form.options[item.model]"
+          :class="{'invalid': errorList[model].length}"
+          :id="model+'Element'"
+          v-model="form.options[model]"
           :type="item.type"
-          v-if="['text', 'number', 'float'].indexOf(item.type) >= 0"
+          v-if="fieldTypes.input.indexOf(item.type) >= 0"
         >
         <select
-          :id="item.model+'Element'"
-          v-if="item.type == 'enum'"
+          :id="model+'Element'"
+          v-if="fieldTypes.select.indexOf(item.type) >= 0"
           class="custom-input"
-          v-model="form.options[item.model]"
+          :class="{'invalid': errorList[model].length}"
+          v-model="form.options[model]"
         >
           <option value selected disabled>Click here for select.</option>
           <option :value="opt" :key="opt" v-for="opt in item.options" v-text="opt"></option>
         </select>
-      </div>
-      <div class="form-group form-check">
-        <input
-          type="checkbox"
-          id="auth_only"
-          name="auth_only"
-          class="form-check-input"
-          v-model="form.auth_only"
-        >
-        <label for="auth_only" class="form-check-label">Auth only?</label>
-      </div>
-      <div class="m-3">
+        
         <small
           class="form-text text-danger"
-          v-if="errorList.options.length"
-          v-text="errorList.options.slice().shift()"
+          v-if="errorList[model].length"
+          v-text="errorList[model].slice().shift()"
         ></small>
       </div>
 
-      <button type="submit" class="btn btn-success">Edit Step</button>
+      <button type="submit" class="btn btn-success">{{$t('editStepLabel')}}</button>
     </form>
   </div>
 </template>
@@ -179,83 +185,13 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      positions: [
-        { label: "Left", name: "left" },
-        { label: "Right", name: "right" },
-        { label: "Bottom", name: "bottom" },
-        { label: "Top", name: "top" }
-      ],
+      positions: ["left", "right", "top", "bottom"],
+      fieldTypes: {
+        input: ["text", "number", "numeric", "integer"],
+        checkbox: ["boolean"],
+        select: ["enum"]
+      },
       removedSteps: [],
-      title: "Add New Step",
-      formItems: [
-        { label: "Next label", model: "nextLabel", type: "text" },
-        { label: "Prev label", model: "prevLabel", type: "text" },
-        { label: "Skip label", model: "skipLabel", type: "text" },
-        { label: "Done label", model: "doneLabel", type: "text" },
-        {
-          label: "Tooltip position",
-          model: "tooltipPosition",
-          type: "enum",
-          options: ["top", "bottom", "left", "right"]
-        },
-        { label: "Tooltip class", model: "tooltipClass", type: "text" },
-        { label: "Higlight class", model: "highlightClass", type: "text" },
-        { label: "Scroll to", model: "scrollTo", type: "text" },
-        { label: "Scroll padding", model: "scrollPadding", type: "number" },
-        { label: "Overlay opacity", model: "overlayOpacity", type: "float" },
-        {
-          label: "Helper element padding",
-          model: "helperElementPadding",
-          type: "number"
-        },
-        {
-          label: "Hint position",
-          model: "hintPosition",
-          type: "enum",
-          options: [
-            "top-left",
-            "top-middle",
-            "top-right",
-            "bottom-left",
-            "bottom-middle",
-            "bottom-right"
-          ]
-        },
-        { label: "Hint button label", model: "hintButtonLabel", type: "text" },
-        { label: "Button class", model: "buttonClass", type: "text" },
-        {
-          label: "Exit on overlay click",
-          model: "exitOnOverlayClick",
-          type: "boolean"
-        },
-        {
-          label: "Keyboard navigation",
-          model: "keyboardNavigation",
-          type: "boolean"
-        },
-        { label: "Hide prev", model: "hidePrev", type: "boolean" },
-        { label: "Hide next", model: "hideNext", type: "boolean" },
-        { label: "Exit on ESC", model: "exitOnEsc", type: "boolean" },
-        { label: "Hint animation", model: "hintAnimation", type: "boolean" },
-        {
-          label: "Disable interaction",
-          model: "disableInteraction",
-          type: "boolean"
-        },
-        {
-          label: "Scroll to element",
-          model: "scrollToElement",
-          type: "boolean"
-        },
-        { label: "Show buttons", model: "showButtons", type: "boolean" },
-        { label: "Show bullets", model: "showBullets", type: "boolean" },
-        { label: "Show progress", model: "showProgress", type: "boolean" },
-        {
-          label: "Show step numbers",
-          model: "showStepNumbers",
-          type: "boolean"
-        }
-      ],
       form: {
         name: "",
         view_path: "",
@@ -275,67 +211,85 @@ export default {
         name: [],
         view_path: [],
         steps: [],
-        options: []
+        options: [],
+        auth_only: [],
+        nextLabel: [],
+        prevLabel: [],
+        skipLabel: [],
+        doneLabel: [],
+        hintButtonLabel: [],
+        tooltipPosition: [],
+        tooltipClass: [],
+        highlightClass: [],
+        hidePrev: [],
+        hideNext: [],
+        showStepNumbers: [],
+        keyboardNavigation: [],
+        showButtons: [],
+        showBullets: [],
+        showProgress: [],
+        scrollToElement: [],
+        scrollPadding: [],
+        overlayOpacity: [],
+        disableInteraction: [],
+        helperElementPadding: [],
+        hintPosition: [],
+        hintAnimation: [],
+        buttonClass: [],
+        exitOnEsc: [],
+        exitOnOverlayClick: []
       }
     };
   },
   computed: {
     ...mapState({
       vuexOptions: state => state.options,
-      editList: state => state.editList
+      editList: state => state.editList,
+      defaultOptions: state => state.defaultOptions
     })
   },
   mounted() {
-    this.getIntroStepOptions();
     this.getStepInfo(this.$route.params.id);
   },
   methods: {
     getStepInfo(id) {
-      let match = this.editList.filter(v => v.id == id);
-      if (match.length) {
-        this.form = match.slice().shift();
-      } else {
-        Api.getStepInfoById(id)
-          .then(resp => {
-            this.form = {
-              id: resp.data.id,
-              name: resp.data.name,
-              view_path: resp.data.view_path,
-              auth_only: resp.data.auth_only,
-              steps: resp.data.step_info.steps.map(v => {
-                let position = {};
-                v.position.forEach(v => (position[v] = true));
-                return {
-                  uuid: uuid(),
-                  selector: v.element,
-                  intro: v.intro,
-                  position
-                };
-              }),
-              options: resp.data.step_info.options
-            };
-            this.$store.commit("appendEditList", { item: this.form });
-          })
-          .catch(err => window.alert(err.toString()));
-      }
-    },
-    getIntroStepOptions() {
-      if (Object.keys(this.vuexOptions).length) {
-        this.form.options = this.vuexOptions;
-      } else {
-        Api.getIntroStepOptions().then(data => {
-          this.$store.commit("setOptions", { opts: data });
-          this.form.options = data;
-        });
-      }
+      Api.getStepInfoById(id)
+        .then(resp => {
+          this.form = {
+            id: resp.data.id,
+            name: resp.data.name,
+            view_path: resp.data.view_path,
+            auth_only: resp.data.auth_only,
+            steps: resp.data.step_info.steps.map(v => {
+              let position = {};
+              v.position.forEach(v => (position[v] = true));
+              return {
+                uuid: uuid(),
+                selector: v.element,
+                intro: v.intro,
+                position
+              };
+            }),
+            options: {
+              ...this.defaultOptions,
+              ...resp.data.step_info.options
+            }
+          };
+          this.$store.commit("appendEditList", { item: this.form });
+        })
+        .catch(err => window.alert(err.toString()));
     },
     addNewStep(e) {
       e.preventDefault();
+      let _uuid = uuid();
       this.form.steps.push({
-        uuid: uuid(),
+        uuid: _uuid,
         selector: "",
         intro: "",
         position: { left: true, right: true, bottom: true, top: true }
+      });
+      this.$nextTick(() => {
+        document.querySelector("._" + _uuid).focus();
       });
     },
     removeStep(step, $event) {
@@ -353,7 +307,7 @@ export default {
     },
     createNewStep(e) {
       e.preventDefault();
-      let form = this.form;
+      let form = { ...this.form, ...this.form.options };
       form.steps = form.steps.map(v => ({
         ...v,
         position: Object.keys(v.position).filter(c => v.position[c])
@@ -362,8 +316,6 @@ export default {
       Api.updateStep(form)
         .then(data => {
           this.$router.push({ name: "steps.index" });
-          this.$store.commit("removeFromEditList", { item: form });
-          this.$store.commit("removeFromShowList", { item: form });
 
           this.$toasted.show(data.message, {
             theme: "toasted-primary",
@@ -372,17 +324,29 @@ export default {
           });
         })
         .catch(err => {
-          console.log(err);
-          if (err && err.response && err.response.status == 422) {
+          if (err.response.status == 422) {
             this.errorList = {
               ...this.errorList,
               ...err.response.data.errors
             };
+
+            this.$toasted.show(err.response.data.message, {
+              theme: "toasted-primary",
+              position: "top-right",
+              duration: 5000
+            });
+
+            let errs = [];
+            Object.keys(this.errorList).forEach(
+              prop => (errs = errs.concat(this.errorList[prop]))
+            );
+            this.$toasted.show(errs.slice(0, 4).join("<br />"), {
+              theme: "toasted-primary",
+              position: "top-right",
+              duration: 5000
+            });
           }
         });
-    },
-    onDrag(start) {
-      console.log(start);
     }
   }
 };

@@ -26,7 +26,8 @@ class IntroStep extends Facade
                 "is_active" => filled($step),
                 "is_auth" => auth()->check(),
                 "is_auth_only" => $step->auth_only,
-                "step" => $step
+                "step" => $step,
+                "route" => route("intro-step-admin.api.user.store")
             ];
 
             if(auth()->check()) {

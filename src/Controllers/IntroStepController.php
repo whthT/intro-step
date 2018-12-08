@@ -2,16 +2,32 @@
 
 namespace Whtht\IntroStep\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-
-use App\Models\IntroStepSettings;
 
 class IntroStepController extends Controller {
 
-        public function index(Request $request) {
+        public function index() {
+            $defaultOptions = collect(config("intro-step.default_options"))->map(function ($item) {
+                if(trans("intro_step::validation.".$item["value"]) != "intro_step::validation.".$item["value"]) {
+                    $item["value"] = trans("intro_step::validation.".$item["value"]);
+                }
 
-            return view("intro_step::index", compact("intro-step"));
+                if(trans("intro_step::validation.".$item["attribute"]) != "intro_step::validation.".$item["attribute"]) {
+                    $item["attribute"] = trans("intro_step::validation.".$item["attribute"]);
+                }
+
+                return $item;
+            });
+
+
+            $i18n = [
+                "locale" => app()->getLocale(),
+                "messages" => [
+                    app()->getLocale() => collect(\Lang::get("intro_step::panel"))
+                ]
+            ];
+
+            return view("intro_step::index", compact(["i18n", "defaultOptions"]));
         }
 
 }

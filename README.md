@@ -19,11 +19,9 @@ Vendor publishing with this code.
 ```php
 php artisan vendor:publish --force --provider=Whtht\IntroStep\IntroStepServiceProvider
 ```
-
+`php artisan config:cache`
 ###### Step 3
-Settings your user table.
-
-<p><img src="https://github.com/whthT/intro-step/blob/1.0.1/docs/config-file.png"></p>
+Go to `config/intro-step.php` and edit as 
 
 ```php
 // web_middleware => /intro-step-admin page middlewares
@@ -32,11 +30,13 @@ Settings your user table.
 // user_column => Your user relationship column
 // user_model => Your user model path
 ```
-
+and
+```
+php artisan config:cache
+```
 ###### Step 4
 ```php
-php artisan migrate --seed
-// Create intro_step_settings, intro_step_step_list and intro_step_user_list tables with default options seed.
+php artisan migrate
 ```
 
 ###### Step 5
