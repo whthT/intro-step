@@ -7,11 +7,13 @@ import axios from "axios";
 let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    axios.defaults.headers.common['Accept'] = "application/json, text/javascript, */*; q=0.01";
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-class _IntroStep{
+
+class _IntroStep {
     constructor(IntroStep) {
         this.$model = new introJs();
 
@@ -30,8 +32,7 @@ class _IntroStep{
         this.placementsVariablesToModel();
         this.setCustomHtmlAttributes();
 
-        console.log(this);
-        if(this.isIntroWillShow()) {
+        if (this.isIntroWillShow()) {
             this.run();
         }
     }
@@ -128,7 +129,7 @@ class _IntroStep{
     }
 
     onExit(_e) {
-        if(this.isUserAuth()) {
+        if (this.isUserAuth()) {
             this.sendRequest();
         } else {
             // localStorage actions ....
@@ -136,7 +137,11 @@ class _IntroStep{
     }
 
     sendRequest() {
-        axios.post(this.getStoreRoute(), {step_id: this.step.id, completed: this.isCompleted(), last_step: this.getClientLastStep()});
+        axios.post(this.getStoreRoute(), {
+            step_id: this.step.id,
+            completed: this.isCompleted(),
+            last_step: this.getClientLastStep()
+        });
     }
 
     modelOnEventHandlers() {
@@ -148,10 +153,10 @@ class _IntroStep{
     run() {
         setTimeout(() => {
             this.$model.start();
-            if(this.getUserLastStep()) {
+            if (this.getUserLastStep()) {
                 setTimeout(() => {
                     this.$model.goToStep(this.getUserLastStep());
-                },100);
+                }, 100);
             }
         }, 1000);
     }

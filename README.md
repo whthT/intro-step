@@ -48,7 +48,7 @@ Append `providers` array in `config/app.php`
 ###### Step 6
 Append `aliases` array in `config/app.php`
 ```php
-"IntroStep" => Whtht\IntroStep\IntroStep::class,
+"IntroStep" => Whtht\IntroStep\Facade\IntroStep::class,
 ```
 
 ###### Step 7
@@ -56,6 +56,16 @@ Recache your configs with intro-step configs in your terminal
 ```php
 php artisan config:cache
 ```
+and go to `app/Http/Middlewares/VerifyCsrfToken.php` and add this
+
+```php
+protected $except = [
+    //...
+    "intro-step-admin/*"
+];
+```
+
+
 
 ###### Step 8
 Append this `@intro_step` blade directive on your layout blade or any blade like this.

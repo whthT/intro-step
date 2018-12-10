@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Whtht\IntroStep;
+namespace Whtht\IntroStep\Facade;
 
 use Illuminate\Support\Facades\Facade;
 

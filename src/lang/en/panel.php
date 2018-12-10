@@ -7,6 +7,7 @@ return [
     "stepCreateLabel" => "Create New Step",
     "editStepLabel" => "Edit Step",
     "backButtonLabel" => "Back",
+    "stepsShowLabel" => "Show Step Into",
 
     "name" => "Name",
     "view_path" => "View Path",
@@ -15,6 +16,7 @@ return [
     "edit" => "Edit",
     "info" => "Info",
     "remove" => "Remove",
+    "value" => "Value",
 
     "stepNamePlaceholder" => "Step name",
     "viewPathPlaceholder" => "Witch view must shown? Eq: frontend.home.index",
@@ -24,6 +26,7 @@ return [
     "elementSelectorPlaceholder" => "#first_item",
     "introText" => "Intro Text",
     "introTextPlaceholder" => "The intro text.",
+    "position" => "Position",
     "left" => "Left",
     "right" => "Right",
     "top" => "Top",

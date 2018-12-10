@@ -11,11 +11,6 @@ import ShowStep from "./pages/steps/pages/show/index";
 import StepInfoShow from "./pages/step-info/index";
 
 const auth = (to, from, next) => {
-    // if (!localStorage.getItem('jwt')) {
-    //     return router.push({ name: 'login' });
-    // }
-    // console.log("middleware")
-
     return next();
 };
 
@@ -79,7 +74,7 @@ export default new VueRouter({
                                 path: "/"
                             },
                             {
-                                name: "Steps",
+                                name: "stepsLabel",
                                 path: "/steps"
                             }
                         ],

@@ -5,7 +5,7 @@ namespace Whtht\IntroStep;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
-use Whtht\IntroStep\IntroStep;
+use Whtht\IntroStep\Facade\IntroStep;
 
 class IntroStepServiceProvider extends ServiceProvider {
 
@@ -41,7 +41,7 @@ class IntroStepServiceProvider extends ServiceProvider {
 
     public function register() {
         $this->app->bind("introStep", function() {
-            return new \Whtht\IntroStep\IntroStep;
+            return new \Whtht\IntroStep\Facade\IntroStep;
         });
     }
 }

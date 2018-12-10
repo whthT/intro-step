@@ -1,8 +1,12 @@
 
 class Api {
-    constructor(token) {
+    constructor(token, route) {
         this.token = token;
-        this.apiUrl = "http://localhost:8000/intro-step-admin/api/";
+        this.apiUrl = this.withSlashes(route);
+    }
+
+    withSlashes(str) {
+        return String(str).substr(-1, 1) == "/" ? str : str+"/";
     }
 
     async getIntroStepOptions() {

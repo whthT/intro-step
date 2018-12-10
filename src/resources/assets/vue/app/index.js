@@ -15,11 +15,12 @@ window.axios = require('axios');
 let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['Accept'] = "application/json, text/javascript, */*; q=0.01";
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-window.Api = new _Api(token.content);
+window.Api = new _Api(token.content, window.apiRoute);
 Vue.use(VueRouter);
 Vue.use(Toasted)
 Vue.use(VueI18n);

@@ -7,6 +7,7 @@ return [
     "stepCreateLabel" => "Yeni Adım Ekle",
     "editStepLabel" => "Adımı Düzenle",
     "backButtonLabel" => "Geri",
+    "stepsShowLabel" => "Adım Bilgilerini Göster",
 
     "name" => "Adı",
     "view_path" => "View Dosyası",
@@ -17,6 +18,7 @@ return [
     "remove" => "Sil",
     "participant" => "Katılımcı",
     "complete" => "Tamamlayan",
+    "value" => "Değer",
 
     "stepNamePlaceholder" => "Adım ismi",
     "viewPathPlaceholder" => "Hangi View'de görünsün? Ör: frontend.home.index",
@@ -26,6 +28,7 @@ return [
     "elementSelectorPlaceholder" => "#ilk_eleman",
     "introText" => "Giriş Yazısı",
     "introTextPlaceholder" => "Bu adımda gösterilecek yazı.",
+    "position" => "Pozistonlar",
     "left" => "Sol",
     "right" => "Sağ",
     "top" => "Üst",

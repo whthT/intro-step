@@ -61,12 +61,10 @@
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 
-<!-- Graphs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-
 <script>
     window.defaultOptions = {!! json_encode($defaultOptions) !!};
     window.i18n = {!! json_encode($i18n) !!};
+    window.apiRoute = '{{route("intro-step-admin.api.index")}}';
 </script>
 <script src="{{asset('vendor/whtht/intro-step/vue/app/index.js')}}"></script>
 
