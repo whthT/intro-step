@@ -15,7 +15,7 @@ class IntroStepUserList extends Model
     protected $guarded = ["id"];
 
     public static function getUserStep(IntroStepStepList $step) {
-        return self::where("user_id", auth()->user()->id)->where("intro_step_step_list_id", $step->id)->first();
+        return self::where(config("intro-step.user_column"), auth()->user()->id)->where("intro_step_step_list_id", $step->id)->first();
     }
 
     public function _user_relationship() {
