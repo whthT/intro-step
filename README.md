@@ -19,7 +19,6 @@ Vendor publishing with this code.
 ```php
 php artisan vendor:publish --force --provider=Whtht\IntroStep\IntroStepServiceProvider
 ```
-`php artisan config:cache`
 ###### Step 3
 Go to `config/intro-step.php` and edit as 
 
