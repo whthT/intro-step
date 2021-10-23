@@ -4,7 +4,6 @@ namespace Whtht\IntroStep;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
-
 use Whtht\IntroStep\Facade\IntroStep;
 
 class IntroStepServiceProvider extends ServiceProvider {
